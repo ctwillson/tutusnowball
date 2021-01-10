@@ -7,7 +7,7 @@ from pysnowball import utls
 
 def quotec(symbols):
     url = api_ref.realtime_quote+symbols
-    return utls.fetch_without_token(url)
+    return utls.fetch(url)
 
 
 def pankou(symbol):

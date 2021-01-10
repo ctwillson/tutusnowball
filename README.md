@@ -1,6 +1,6 @@
 # pysnowball
 
-> 雪球APP Python API (需要自取token)
+> 雪球APP Python API
 
 ## 快速指引
 
@@ -14,18 +14,10 @@ pip install pysnowball
 
 ```python
 >>> import pysnowball as ball
->>> ball.set_token('xq_a_token=651af***************031c96a315c;')
-'xq_a_token=651af***************031c96a315c;'
+>>> ball.set_token()
 >>> ball.cash_flow('SH600000')
 ```
 
-调用API前需要手动获取雪球网站的token,使用set_token设置token后才能访问雪球的API。
-
-传送门 === [如何获取雪球token](https://blog.crackcreed.com/diy-xue-qiu-app-shu-ju-api/)
-
-## 联系作者
-
-![img](https://blog.crackcreed.com/content/images/2017/11/qrcode_for_gh_ab3754053ff8_344.jpg)
 
 ## APIs
 

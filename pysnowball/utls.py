@@ -1,3 +1,4 @@
+from http.cookiejar import Cookie
 import requests
 import json
 
@@ -8,7 +9,7 @@ def fetch(url):
     HEADERS = {'Host': 'stock.xueqiu.com',
                'Accept': 'application/json',
                'Cookie': token.get_token(),
-               'User-Agent': 'Xueqiu iPhone 11.8',
+               'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36',
                'Accept-Language': 'zh-Hans-CN;q=1, ja-JP;q=0.9',
                'Accept-Encoding': 'br, gzip, deflate',
                'Connection': 'keep-alive'}
