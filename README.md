@@ -1,14 +1,11 @@
-# pysnowball
 
+# pysnowball
 > 雪球APP Python API
 
 ## 快速指引
 
 安装
 
-```bash
-pip install pysnowball
-```
 
 示例
 
@@ -34,41 +31,78 @@ ball.quotec('SZ002027')
 
 ```json
 {
-    "data": [
-        {
+    "data": {
+        "market": {
+            "region": "CN",/*地区*/
+            "status": "交易中",
+            "status_id": 5,
+            "time_zone": "Asia/Shanghai",
+            "time_zone_desc": null
+        },
+        "others": {
+            "cyb_switch": true,
+            "pankou_ratio": -24.62/*委比*/
+        },
+        "quote": {
+            "amount": 1062973468.0,/*成交额*/
+            "amplitude": 3.79,/*振幅，高低位的价差*/
+            "avg_price": 11.136,
+            "chg": -0.15,/*股价变动*/
+            "code": "002027",
+            "currency": "CNY",
+            "current": 11.19,/*当前股价*/
+            "current_year_percent": 13.37,
+            "delayed": 0,
+            "exchange": "SZ",
+            "float_market_capital": 164245480333.0,
+            "float_shares": 14677880280,
+            "high": 11.33,/*今日最高价*/
+            "issue_date": 1091548800000,/*发行日期*/
+            "last_close": 11.34,/*昨收*/
+            "lock_set": null,
+            "lot_size": 100,
+            "low": 10.9,/*最低*/
+            "market_capital": 164245480333.0,
+            "name": "分众传媒",
+            "open": 11.2,/*今开*/
+            "percent": -1.32,/*当前涨跌幅*/
+            "status": 1,
+            "sub_type": "2",
             "symbol": "SZ002027",
-            "current": 1.341,
-            "percent": -0.89,
-            "chg": -0.012,
-            "timestamp": 1541486940000,
-            "volume": 2695183,
-            "amount": 3605340,
-            "market_capital": 9835440347.54,
-            "float_market_capital": null,
-            "turnover_rate": null,
-            "amplitude": 1.4,
-            "open": 1.351,
-            "last_close": 1.353,
-            "high": 1.351,
-            "low": 1.332,
-            "avg_price": 1.338,
-            "trade_volume": 22100,
-            "side": 1,
-            "is_trade": true,
-            "level": 1,
-            "trade_session": null,
-            "trade_type": null,
-            "current_year_percent": -35.84
-        }
-    ],
+            "tick_size": 0.01,
+            "time": 1610428086000,
+            "timestamp": 1610428086000,
+            "total_shares": 14677880280,
+            "turnover_rate": 0.65,/*换手率*/
+            "type": 11,
+            "volume": 95458021/*成交量*/
+        },
+        "tags": [
+            {
+                "description": "深股通",
+                "value": 3
+            },
+            {
+                "description": "融",
+                "value": 6
+            },
+            {
+                "description": "空",
+                "value": 7
+            }
+        ]
+    },
     "error_code": 0,
-    "error_description": null
+    "error_description": ""
 }
 ```
 
 ### 实时分笔
 
 获取实时分笔数据，可以实时取得股票当前报价和成交信息
+
+- 关于分笔数据和逐笔数据，可以参考[这里](https://www.cnblogs.com/chuncn/archive/2009/03/13/1410144.html)
+- 总结，分笔数据没啥用
 
 ```python
 import pysnowball as ball
@@ -79,60 +113,88 @@ ball.pankou('SZ002027')
 
 ```json
 {
-    "symbol": "SZ002027",
-    "time": "Nov 6, 2018 2:59:15 PM",
-    "timestamp": 1541487555000,
-    "bp1": 6.56,
-    "bc1": 502,
-    "bp2": 0,
-    "bc2": 0,
-    "bp3": 0,
-    "bc3": 0,
-    "bp4": 0,
-    "bc4": 0,
-    "bp5": 0,
-    "bc5": 0,
-    "bp6": 0,
-    "bc6": 0,
-    "bp7": 0,
-    "bc7": 0,
-    "bp8": 0,
-    "bc8": 0,
-    "bp9": 0,
-    "bc9": 0,
-    "bp10": 0,
-    "bc10": 0,
-    "current": 6.55,
-    "sp1": 6.56,
-    "sc1": 502,
-    "sp2": 0,
-    "sc2": 2796,
-    "sp3": 0,
-    "sc3": 0,
-    "sp4": 0,
-    "sc4": 0,
-    "sp5": 0,
-    "sc5": 0,
-    "sp6": 0,
-    "sc6": 0,
-    "sp7": 0,
-    "sc7": 0,
-    "sp8": 0,
-    "sc8": 0,
-    "sp9": 0,
-    "sc9": 0,
-    "sp10": 0,
-    "sc10": 0,
-    "buypct": 13.21,
-    "sellpct": 86.79,
-    "diff": -2796,
-    "ratio": -73.58
+    "data": {
+        "ask1_order_list": null,
+        "bc1": 53529,
+        "bc10": null,
+        "bc2": 362000,
+        "bc3": 35900,
+        "bc4": 137400,
+        "bc5": 18200,
+        "bc6": null,
+        "bc7": null,
+        "bc8": null,
+        "bc9": null,
+        "bid1_order_list": null,
+        "bn1": null,
+        "bn10": null,
+        "bn2": null,
+        "bn3": null,
+        "bn4": null,
+        "bn5": null,
+        "bn6": null,
+        "bn7": null,
+        "bn8": null,
+        "bn9": null,
+        "bp1": 11.29,
+        "bp10": null,
+        "bp2": 11.28,
+        "bp3": 11.27,
+        "bp4": 11.26,
+        "bp5": 11.25,
+        "bp6": null,
+        "bp7": null,
+        "bp8": null,
+        "bp9": null,
+        "buypct": 34.51,
+        "current": 11.29,
+        "diff": -545053,
+        "level": 1,
+        "ratio": -30.98,
+        "sc1": 139641,
+        "sc10": null,
+        "sc2": 477761,
+        "sc3": 152300,
+        "sc4": 227260,
+        "sc5": 155120,
+        "sc6": null,
+        "sc7": null,
+        "sc8": null,
+        "sc9": null,
+        "sellpct": 65.49,
+        "sn1": null,
+        "sn10": null,
+        "sn2": null,
+        "sn3": null,
+        "sn4": null,
+        "sn5": null,
+        "sn6": null,
+        "sn7": null,
+        "sn8": null,
+        "sn9": null,
+        "sp1": 11.3,
+        "sp10": null,
+        "sp2": 11.31,
+        "sp3": 11.32,
+        "sp4": 11.33,
+        "sp5": 11.34,
+        "sp6": null,
+        "sp7": null,
+        "sp8": null,
+        "sp9": null,
+        "symbol": "SZ002027",
+        "timestamp": 1610435043000
+    },
+    "error_code": 0,
+    "error_description": null
 }
 ```
 
 ### 业绩预告
 
 按年度获取业绩预告数据
+
+关于返回值的参数指标可以参考 [一文教你看四个指标PE/PB/ROE/股息率](https://zhuanlan.zhihu.com/p/61254326)
 
 ```python
 import pysnowball as ball
@@ -145,25 +207,25 @@ ball.earningforecast('SZ002027')
 {
     "list": [
         {
-            "eps": 4.78,
-            "roe": null,
+            "eps": 0.26,
+            "forecast_year": "2020",
             "pb": null,
-            "pe": 8.4,
-            "forecast_year": "2018"
+            "pe": 42.0,
+            "roe": null
         },
         {
-            "eps": 5.49,
-            "roe": null,
+            "eps": 0.36,
+            "forecast_year": "2021",
             "pb": null,
-            "pe": 7.32,
-            "forecast_year": "2019"
+            "pe": 30.0,
+            "roe": null
         },
         {
-            "eps": 6.12,
-            "roe": null,
+            "eps": 0.44,
+            "forecast_year": "2022",
             "pb": null,
-            "pe": 6.56,
-            "forecast_year": "2020"
+            "pe": 25.0,
+            "roe": null
         }
     ]
 }
@@ -184,38 +246,52 @@ ball.report('SZ002027')
 {
     "list": [
         {
-            "title": "2018年三季报点评：业绩确定性最强 新冷年预收款下降",
-            "rpt_comp": "申万宏源",
+            "like_count": 6,
+            "liked": false,
+            "pub_date": 1608566400000,
             "rating_desc": "买入",
-            "target_price_min": null,
+            "reply_count": 1,
+            "retweet_count": 1,
+            "rpt_comp": "中原证券",
+            "status_id": 166374866,
             "target_price_max": null,
-            "pub_date": 1541088000000,
-            "status_id": 116200430,
-            "retweet_count": 0,
-            "reply_count": 4,
-            "like_count": 4,
-            "liked": false
+            "target_price_min": null,
+            "title": "全年净利润高增 梯媒广告景气度持续"
         },
         {
-            "title": "2018年三季报点评：业绩表现优异 现金流增长亮眼(",
-            "rpt_comp": "海通证券",
-            "rating_desc": "增持",
-            "target_price_min": 50.3,
-            "target_price_max": 60.4,
-            "pub_date": 1541088000000,
-            "status_id": 116196608,
-            "retweet_count": 0,
+            "like_count": 3,
+            "liked": false,
+            "pub_date": 1608566400000,
+            "rating_desc": "买入",
             "reply_count": 0,
+            "retweet_count": 0,
+            "rpt_comp": "西南证券",
+            "status_id": 166355133,
+            "target_price_max": null,
+            "target_price_min": null,
+            "title": "2020年度业绩预告点评：复苏的需求和成本的改善"
+        },
+        {
             "like_count": 0,
-            "liked": false
-        }...
+            "liked": false,
+            "pub_date": 1608480000000,
+            "rating_desc": "买入",
+            "reply_count": 0,
+            "retweet_count": 0,
+            "rpt_comp": "新时代证券",
+            "status_id": 166288944,
+            "target_price_max": null,
+            "target_price_min": null,
+            "title": "2020年业绩预告：2020Q4净利同比增长222%-300% 新周期内营收净利有望再创新高"
+        }
+        ......
     ]
 }
 ```
 
 ### 资金流向趋势
 
-获取当日资金流如流出数据，每分钟数据
+获取当日资金流入流出数据，每分钟数据
 
 ```python
 import pysnowball as ball
@@ -251,7 +327,7 @@ ball.capital_flow('SZ002027')
 
 ### 资金流向历史
 
-获取历史资金流如流出数据，每日数据
+获取历史资金流如流出数据，每日数据，共20个交易日
 
 ```python
 import pysnowball as ball
@@ -263,25 +339,92 @@ ball.capital_history('SZ002027')
 ```json
 {
     "data": {
-        "sum3": -152759438,
-        "sum5": -332530425,
-        "sum10": -362575240.15999997,
-        "sum20": -162580140.64,
         "items": [
             {
-                "amount": 1232691,
-                "timestamp": 1539100800000
+                "amount": 118088050.04999995,
+                "timestamp": 1607961600000
             },
             {
-                "amount": -65392886,
-                "timestamp": 1539187200000
+                "amount": -152300443.07000005,
+                "timestamp": 1608048000000
             },
-            ...
             {
-                "amount": -4122992,
-                "timestamp": 1541433600000
+                "amount": -167809104.43999994,
+                "timestamp": 1608134400000
+            },
+            {
+                "amount": 343081418.17999935,
+                "timestamp": 1608220800000
+            },
+            {
+                "amount": -261495255.15999985,
+                "timestamp": 1608480000000
+            },
+            {
+                "amount": -99425858.97000015,
+                "timestamp": 1608566400000
+            },
+            {
+                "amount": 2577557.910000026,
+                "timestamp": 1608652800000
+            },
+            {
+                "amount": -39723597.56999999,
+                "timestamp": 1608739200000
+            },
+            {
+                "amount": -90937658.67000002,
+                "timestamp": 1608825600000
+            },
+            {
+                "amount": 35322662.31,
+                "timestamp": 1609084800000
+            },
+            {
+                "amount": -33591085.29999995,
+                "timestamp": 1609171200000
+            },
+            {
+                "amount": 21511088.75000003,
+                "timestamp": 1609257600000
+            },
+            {
+                "amount": 38125173.20999998,
+                "timestamp": 1609344000000
+            },
+            {
+                "amount": 9456633.149999976,
+                "timestamp": 1609689600000
+            },
+            {
+                "amount": -107577766.71000004,
+                "timestamp": 1609776000000
+            },
+            {
+                "amount": 152165408.3800001,
+                "timestamp": 1609862400000
+            },
+            {
+                "amount": 39433181.360000014,
+                "timestamp": 1609948800000
+            },
+            {
+                "amount": 15231418.50999999,
+                "timestamp": 1610035200000
+            },
+            {
+                "amount": 193131879.3399999,
+                "timestamp": 1610294400000
+            },
+            {
+                "amount": -43202581.09000003,
+                "timestamp": 1610380800000
             }
-        ]
+        ],
+        "sum10": 284683349.6,
+        "sum20": -27938879.8300007,
+        "sum3": 165160716.75999987,
+        "sum5": 356759306.5
     },
     "error_code": 0,
     "error_description": ""
@@ -302,16 +445,18 @@ ball.capital_assort('SZ002027')
 ```json
 {
     "data": {
-        "sell_large": 21922533,
-        "sell_medium": 353650388,
-        "sell_small": 225596826,
-        "sell_total": 601169747,
-        "buy_large": 14298615,
-        "buy_medium": 317379444,
-        "buy_small": 265530036,
-        "buy_total": 597208095,
-        "timestamp": 1541433600000,
+        "buy_large": 195478110.0,
+        "buy_medium": 633629590.0,
+        "buy_small": 258461911.0,
+        "buy_total": 1087569611.0,
+        "buy_xlarge": null,
         "created_at": null,
+        "sell_large": 158589853.0,
+        "sell_medium": 537169632.0,
+        "sell_small": 186491982.0,
+        "sell_total": 882251467.0,
+        "sell_xlarge": null,
+        "timestamp": 1610380800000,
         "updated_at": null
     },
     "error_code": 0,
@@ -335,24 +480,24 @@ ball.blocktrans('SZ002027')
     "data": {
         "items": [
             {
-                "vol": 780200,
-                "sell_branch_org_name": "机构专用",
-                "premium_rat": 0,
-                "trans_amt": 30193700,
-                "td_date": 1541001600000,
                 "buy_branch_org_name": "机构专用",
-                "trans_price": 38.7
+                "premium_rat": 0.0,/*溢价率*/
+                "sell_branch_org_name": "机构专用",
+                "td_date": 1610380800000,/*成交日期*/
+                "trans_amt": 45160000.0,/*成交量*/
+                "trans_price": 11.29,/*成交价格*/
+                "vol": 4000000.0
             },
             {
-                "vol": 774200,
-                "sell_branch_org_name": "机构专用",
-                "premium_rat": 0,
-                "trans_amt": 29961500,
-                "td_date": 1541001600000,
                 "buy_branch_org_name": "机构专用",
-                "trans_price": 38.7
+                "premium_rat": 0.0,
+                "sell_branch_org_name": "机构专用",
+                "td_date": 1610380800000,
+                "trans_amt": 19870400.0,
+                "trans_price": 11.29,
+                "vol": 1760000.0
             },
-            ...
+           ......
         ]
     },
     "error_code": 0,
@@ -417,86 +562,384 @@ ball.indicator(symbol='SZ002027',is_annals=1,count=10)
 ```json
 {
     "data": {
-        "quote_name": "分众传媒",
-        "currency_name": "人民币",
-        "org_type": 1,
-        "last_report_name": "2018三季报",
         "currency": "CNY",
+        "currency_name": "人民币",
+        "last_report_name": "2020三季报",
         "list": [
             {
-                "report_date": 1538236800000,
-                "report_name": "2018三季报",
                 "avg_roe": [
-                    40.2459,
-                    -0.16318251756975927
-                ],
-                "np_per_share": [
-                    0.9217,
-                    0.3588382721509656
-                ],
-                "operate_cash_flow_ps": [
-                    0.1063,
-                    -0.45543032786885246
+                    13.76,
+                    -0.7067348678601876
                 ],
                 "basic_eps": [
-                    0.3277,
-                    0.024062499999999952
+                    0.13,
+                    -0.675
                 ],
                 "capital_reserve": [
-                    0.0127,
-                    -0.15333333333333335
+                    0.0264,
+                    1.078740157480315
                 ],
-                "undistri_profit_ps": [
-                    0.9042,
-                    0.4481101857783473
+                "ctime": 1587995194000,
+                "gross_selling_rate": [
+                    45.2074,
+                    -0.3172397440370201
                 ],
                 "net_interest_of_total_assets": [
-                    28.1351,
-                    -0.10744276201624894
+                    9.839,
+                    -0.7063353251234173
                 ],
-                "gross_selling_rate": [
-                    69.2402,
-                    -0.042102277836574074
+                "np_per_share": [
+                    0.9387,
+                    -0.029767441860465167
+                ],
+                "operate_cash_flow_ps": [
+                    0.2337,
+                    -0.09313154831199066
+                ],
+                "report_date": 1577721600000,
+                "report_name": "2019年报",
+                "undistri_profit_ps": [
+                    0.9915,
+                    0.021954236239950627
                 ]
             },
             {
-                "report_date": 1530288000000,
-                "report_name": "2018中报",
                 "avg_roe": [
-                    29.2624,
-                    -0.1387915228248617
-                ],
-                "np_per_share": [
-                    0.85,
-                    0.07336784947594384
-                ],
-                "operate_cash_flow_ps": [
-                    0.085,
-                    -0.5940783190066857
+                    46.92,
+                    -0.30643015521064304
                 ],
                 "basic_eps": [
-                    0.23,
-                    -0.20689655172413784
+                    0.4,
+                    -0.18367346938775503
                 ],
                 "capital_reserve": [
                     0.0127,
-                    -0.3923444976076555
+                    -0.16447368421052636
                 ],
-                "undistri_profit_ps": [
-                    0.8046,
-                    0.12405699916177702
+                "ctime": 1587994241000,
+                "gross_selling_rate": [
+                    66.2127,
+                    -0.08954316758955348
                 ],
                 "net_interest_of_total_assets": [
-                    20.1998,
-                    0.06631263329039885
+                    33.5042,
+                    -0.22362570009755603
                 ],
-                "gross_selling_rate": [
-                    71.8153,
-                    0.014222928982801345
+                "np_per_share": [
+                    0.9675,
+                    0.1409198113207548
+                ],
+                "operate_cash_flow_ps": [
+                    0.2577,
+                    -0.2416127133608005
+                ],
+                "report_date": 1546185600000,
+                "report_name": "2018年报",
+                "undistri_profit_ps": [
+                    0.9702,
+                    0.22515469124889492
                 ]
             },
-            ...
-        ]
+            {
+                "avg_roe": [
+                    67.65,
+                    -0.04354587869362361
+                ],
+                "basic_eps": [
+                    0.49,
+                    -0.057692307692307744
+                ],
+                "capital_reserve": [
+                    0.0152,
+                    -0.27272727272727265
+                ],
+                "ctime": 1556096007000,
+                "gross_selling_rate": [
+                    72.7247,
+                    0.03244935334118891
+                ],
+                "net_interest_of_total_assets": [
+                    43.1547,
+                    0.19488153548397802
+                ],
+                "np_per_share": [
+                    0.848,
+                    -0.0728187185654931
+                ],
+                "operate_cash_flow_ps": [
+                    0.3398,
+                    -0.3815070986530761
+                ],
+                "report_date": 1514649600000,
+                "report_name": "2017年报",
+                "undistri_profit_ps": [
+                    0.7919,
+                    -0.05036575128912331
+                ]
+            },
+            {
+                "avg_roe": [
+                    70.73,
+                    -0.033743169398907084
+                ],
+                "basic_eps": [
+                    0.52,
+                    -0.9311258278145694
+                ],
+                "capital_reserve": [
+                    0.0209,
+                    -0.5743380855397149
+                ],
+                "ctime": 1524557046000,
+                "gross_selling_rate": [
+                    70.439,
+                    -0.0017389036828762475
+                ],
+                "net_interest_of_total_assets": [
+                    36.1163,
+                    -0.3017091703563349
+                ],
+                "np_per_share": [
+                    0.9146,
+                    -0.18141949342164146
+                ],
+                "operate_cash_flow_ps": [
+                    0.5494,
+                    -0.14035362228133313
+                ],
+                "report_date": 1483113600000,
+                "report_name": "2016年报",
+                "undistri_profit_ps": [
+                    0.8339,
+                    -0.14322408301654174
+                ]
+            },
+            {
+                "avg_roe": [
+                    73.2,
+                    53.62686567164179
+                ],
+                "basic_eps": [
+                    7.55,
+                    376.5
+                ],
+                "capital_reserve": [
+                    0.0491,
+                    -0.7753888380603843
+                ],
+                "ctime": 1493281784000,
+                "gross_selling_rate": [
+                    70.5617,
+                    5.896920114554927
+                ],
+                "net_interest_of_total_assets": [
+                    51.721,
+                    49.00580102484772
+                ],
+                "np_per_share": [
+                    1.1173,
+                    -0.31813743439521547
+                ],
+                "operate_cash_flow_ps": [
+                    0.6391,
+                    32.286458333333336
+                ],
+                "report_date": 1451491200000,
+                "report_name": "2015年报",
+                "undistri_profit_ps": [
+                    0.9733,
+                    2.752120277563608
+                ]
+            },
+            {
+                "avg_roe": [
+                    1.34,
+                    1.0596616206589493
+                ],
+                "basic_eps": [
+                    0.02,
+                    1.048780487804878
+                ],
+                "capital_reserve": [
+                    0.2186,
+                    0.0
+                ],
+                "ctime": 1461226570000,
+                "gross_selling_rate": [
+                    10.2309,
+                    5.709226834546528
+                ],
+                "net_interest_of_total_assets": [
+                    1.0343,
+                    1.0651683552598417
+                ],
+                "np_per_share": [
+                    1.6386,
+                    0.013483424047501262
+                ],
+                "operate_cash_flow_ps": [
+                    0.0192,
+                    -0.8579881656804734
+                ],
+                "report_date": 1419955200000,
+                "report_name": "2014年报",
+                "undistri_profit_ps": [
+                    0.2594,
+                    0.0917508417508418
+                ]
+            },
+            {
+                "avg_roe": [
+                    -22.46,
+                    -17.637037037037036
+                ],
+                "basic_eps": [
+                    -0.41,
+                    -14.666666666666666
+                ],
+                "capital_reserve": [
+                    0.2186,
+                    0.0
+                ],
+                "ctime": 1429096126000,
+                "gross_selling_rate": [
+                    1.5249,
+                    -0.8076151546118618
+                ],
+                "net_interest_of_total_assets": [
+                    -15.8712,
+                    -22.277919292130314
+                ],
+                "np_per_share": [
+                    1.6168,
+                    -0.20201372094171066
+                ],
+                "operate_cash_flow_ps": [
+                    0.1352,
+                    10.013333333333334
+                ],
+                "report_date": 1388419200000,
+                "report_name": "2013年报",
+                "undistri_profit_ps": [
+                    0.2376,
+                    -0.6325394370553664
+                ]
+            },
+            {
+                "avg_roe": [
+                    1.35,
+                    1.1557093425605536
+                ],
+                "basic_eps": [
+                    0.03,
+                    1.1666666666666667
+                ],
+                "capital_reserve": [
+                    0.2186,
+                    0.0
+                ],
+                "ctime": 1398591535000,
+                "gross_selling_rate": [
+                    7.9263,
+                    0.11268179010612621
+                ],
+                "net_interest_of_total_assets": [
+                    0.7459,
+                    1.1336690441202824
+                ],
+                "np_per_share": [
+                    2.0261,
+                    0.013050000000000006
+                ],
+                "operate_cash_flow_ps": [
+                    -0.015,
+                    0.625
+                ],
+                "report_date": 1356883200000,
+                "report_name": "2012年报",
+                "undistri_profit_ps": [
+                    0.6466,
+                    0.04374495560936223
+                ]
+            },
+            {
+                "avg_roe": [
+                    -8.67,
+                    -6.818791946308725
+                ],
+                "basic_eps": [
+                    -0.18,
+                    -7.0
+                ],
+                "capital_reserve": [
+                    0.2186,
+                    -0.000914076782449752
+                ],
+                "ctime": 1366735234000,
+                "gross_selling_rate": [
+                    7.1236,
+                    0.02710652286752404
+                ],
+                "net_interest_of_total_assets": [
+                    -5.5802,
+                    -7.043756092277699
+                ],
+                "np_per_share": [
+                    2.0,
+                    -0.08256880733944962
+                ],
+                "operate_cash_flow_ps": [
+                    -0.04,
+                    -1.3636363636363635
+                ],
+                "report_date": 1325260800000,
+                "report_name": "2011年报",
+                "undistri_profit_ps": [
+                    0.6195,
+                    -0.22630198576245775
+                ]
+            },
+            {
+                "avg_roe": [
+                    1.49,
+                    1.148554336989033
+                ],
+                "basic_eps": [
+                    0.03,
+                    1.1304347826086956
+                ],
+                "capital_reserve": [
+                    0.2188,
+                    0.0
+                ],
+                "ctime": 1335277353000,
+                "gross_selling_rate": [
+                    6.9356,
+                    1.510715320011584
+                ],
+                "net_interest_of_total_assets": [
+                    0.9233,
+                    1.1375575453285858
+                ],
+                "np_per_share": [
+                    2.18,
+                    0.018691588785046745
+                ],
+                "operate_cash_flow_ps": [
+                    0.11,
+                    -0.75
+                ],
+                "report_date": 1293724800000,
+                "report_name": "2010年报",
+                "undistri_profit_ps": [
+                    0.8007,
+                    0.041764246682279495
+                ]
+            }
+        ],
+        "org_type": 1,
+        "quote_name": "分众传媒",
+        "statuses": null
     },
     "error_code": 0,
     "error_description": ""
