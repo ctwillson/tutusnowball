@@ -37,3 +37,6 @@ realtime_pankou = "https://stock.xueqiu.com/v5/stock/realtime/pankou.json?symbol
 
 #private pick
 private_pick = 'https://stock.xueqiu.com/v5/stock/portfolio/stock/add.json'
+
+# history kline
+history_kline = 'https://stock.xueqiu.com/v5/stock/chart/kline.json'
