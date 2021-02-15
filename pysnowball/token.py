@@ -18,6 +18,12 @@ def get_token():
     else:
         return os.environ['XUEQIUTOKEN']
 
+def get_login_token():
+    if os.getenv('XUEQIULOGINCOOKIE') is None:
+        raise Exception(cons.NOTOKEN_ERROR_MSG)
+    else:
+        return os.getenv('XUEQIULOGINCOOKIE')
+
 def set_token():
     os.environ['XUEQIUTOKEN'] = 'xq_a_token=' + get_cookie()
     return os.environ['XUEQIUTOKEN']

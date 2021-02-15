@@ -50,7 +50,7 @@ def fetch(url,is_async = False):
 def fetch_with_login(url,query,is_async = False):
     HEADERS = {'Host': 'stock.xueqiu.com',
                'Accept': 'application/json',
-               'Cookie': 'put your cookie!!!',
+               'Cookie': token.get_login_token(),
                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36',
                'Accept-Language': 'zh-Hans-CN;q=1, ja-JP;q=0.9',
                'Accept-Encoding': 'br, gzip, deflate',
@@ -85,14 +85,13 @@ def fetch_without_token(url):
 
     return json.loads(response.content)
 
-def post_formdata(url,symbol):
+def post_formdata(url,post_data):
     HEADERS = {'Host': 'stock.xueqiu.com',
             'Accept': 'application/json',
-            'Cookie': 'put your cookie!!!',
+            'Cookie': token.get_login_token(),
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36',
             'Accept-Language': 'zh-Hans-CN;q=1, ja-JP;q=0.9',
             'Accept-Encoding': 'br, gzip, deflate',
             'Connection': 'keep-alive'}
-    post_data = {'symbols':symbol}
     response = requests.post(url = url,data=post_data,headers = HEADERS)
     print(response.text)

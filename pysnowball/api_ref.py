@@ -1,5 +1,8 @@
 
 # finance
+from pysnowball.pick import private_packet
+
+
 finance_cash_flow_url = "https://stock.xueqiu.com/v5/stock/finance/cn/cash_flow.json?symbol="
 finance_indicator_url = "https://stock.xueqiu.com/v5/stock/finance/cn/indicator.json?symbol="
 finance_balance_url = "https://stock.xueqiu.com/v5/stock/finance/cn/balance.json?symbol="
@@ -37,6 +40,7 @@ realtime_pankou = "https://stock.xueqiu.com/v5/stock/realtime/pankou.json?symbol
 
 #private pick
 private_pick = 'https://stock.xueqiu.com/v5/stock/portfolio/stock/add.json'
+private_packet = 'https://stock.xueqiu.com/v5/stock/portfolio/stock/modify_portfolio.json'
 
 # history kline
 history_kline = 'https://stock.xueqiu.com/v5/stock/chart/kline.json'
