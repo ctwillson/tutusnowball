@@ -45,7 +45,7 @@ def fetch(url,is_async = False):
     if response.status_code != 200:
         raise Exception(response.content)
 
-    return json.loads(response.content)
+    return json.loads(response.content.decode())
 # TODO:try to automaticly login to get cookie
 def fetch_with_login(url,query,is_async = False):
     HEADERS = {'Host': 'stock.xueqiu.com',
@@ -63,7 +63,7 @@ def fetch_with_login(url,query,is_async = False):
     if response.status_code != 200:
         raise Exception(response.content)
 
-    return json.loads(response.content)
+    return json.loads(response.content.decode())
 
 def fetch_without_token(url):
     HEADERS = {'Host': 'stock.xueqiu.com',
@@ -83,7 +83,7 @@ def fetch_without_token(url):
     if response.status_code != 200:
         raise Exception(response.content)
 
-    return json.loads(response.content)
+    return json.loads(response.content.decode())
 
 def post_formdata(url,post_data):
     HEADERS = {'Host': 'stock.xueqiu.com',

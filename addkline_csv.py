@@ -6,6 +6,8 @@ import threading
 import time
 import argparse
 
+dir_path = os.path.dirname(os.path.abspath(__file__))
+
 def parse_args(pargs=None):
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
@@ -40,7 +42,7 @@ def get_exright_price(ts_code):
     bt_col_dict = {'timestamp':'datetime'}
     df = df.rename(columns = bt_col_dict)
     df = df.set_index('datetime')
-    df.to_csv('./testdata/xueqiu/'+ts_code[0:6]+'.csv',encoding='utf8')
+    df.to_csv(dir_path + '/testdata/xueqiu/'+ts_code[0:6]+'.csv',encoding='utf8')
 def get_data(args):
     ts_token = os.getenv('TS_TOKEN')
     print('ts_token = ' + ts_token)
@@ -51,7 +53,7 @@ def get_data(args):
     if  sotck_list.empty:
         print('get stock list failed,return!')
         exit()
-    sotck_list.to_csv('./testdata/stocklist.csv')
+    sotck_list.to_csv(dir_path + '/testdata/stocklist.csv')
     stock_name = sotck_list['ts_code']
     # stock_name = stock_name.tail(1443)
     if(args.all):
