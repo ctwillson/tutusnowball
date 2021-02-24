@@ -40,7 +40,7 @@ def get_exright_price(ts_code):
     bt_col_dict = {'timestamp':'datetime'}
     df = df.rename(columns = bt_col_dict)
     df = df.set_index('datetime')
-    df.to_csv('./testdata/day/'+ts_code[0:6]+'.csv',encoding='utf8')
+    df.to_csv('./testdata/xueqiu/'+ts_code[0:6]+'.csv',encoding='utf8')
 def get_data(args):
     ts_token = os.getenv('TS_TOKEN')
     print('ts_token = ' + ts_token)
