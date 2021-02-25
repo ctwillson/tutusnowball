@@ -22,6 +22,8 @@ def parse_args(pargs=None):
 
     parser.add_argument('--s', required=False, default='000001.SZ',
                         help='to test which stocks')
+    parser.add_argument('--mt', required=False, action='store_true',
+                        help='wheather using multi threading')
     return parser.parse_args(pargs)
 def get_exright_price(ts_code):
     print(ts_code[-2:]+ts_code[0:6])
@@ -60,8 +62,11 @@ def get_data(args):
         for ts_code in stock_name:
             while True:
                 try:
-                    t1 = threading.Thread(target=get_exright_price, args=(ts_code,))
-                    t1.start()
+                    if(args.mt):
+                        t1 = threading.Thread(target=get_exright_price, args=(ts_code,))
+                        t1.start()
+                    else:
+                        get_exright_price(ts_code)
                     time.sleep(0.2)
                 except:
                     print(ts_code + "failed")
