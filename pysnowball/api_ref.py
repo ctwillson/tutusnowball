@@ -44,3 +44,4 @@ private_packet = 'https://stock.xueqiu.com/v5/stock/portfolio/stock/modify_portf
 
 # history kline
 history_kline = 'https://stock.xueqiu.com/v5/stock/chart/kline.json'
+realtime_minute = 'https://stock.xueqiu.com/v5/stock/chart/minute.json'

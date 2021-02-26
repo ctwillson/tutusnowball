@@ -18,3 +18,11 @@ def history_kline(symbol='SZ000001',begin='1502035200000',period='day',type_name
         'indicator': indicator
     }
     return utls.fetch_with_login(url,query)
+
+def history_realtime_minute(symbol='SZ000001',period='1d'):
+    url = api_ref.realtime_minute
+    query = {
+        'symbol': symbol,
+        'period': period,
+    }
+    return utls.fetch_with_login(url,query)
