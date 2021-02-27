@@ -25,6 +25,10 @@ def parse_args(pargs=None):
                         help='to test which stocks')
     parser.add_argument('--mt', required=False, action='store_true',
                         help='wheather using multi threading')
+    parser.add_argument('--min', required=False, action='store_true',
+                        help='1min kline')
+    parser.add_argument('--check', required=False, action='store_true',
+                        help='wheather check today is trading day')
     return parser.parse_args(pargs)
 def get_exright_price(ts_code):
     print(ts_code[-2:]+ts_code[0:6])
@@ -92,24 +96,36 @@ def get_data(args):
         exit()
     sotck_list.to_csv(dir_path + '/testdata/stocklist.csv')
     stock_name = sotck_list['ts_code']
+    cal = str(datetime.date.today().strftime('%Y%m%d'))
+    print(cal)
     catdt_list = []
     caltimestamp_list = []
-    trade_date = pro.trade_cal(exchange='', start_date='20210101', end_date='20210226')
+    if(args.min):
+        start_date = cal
+    else:
+        start_date = '20180101'
+    trade_date = pro.trade_cal(exchange='', start_date=start_date, end_date=cal)
+    if(args.check):
+        if(trade_date.iloc[-1,-1] == 0):
+            print('not trading date')
+            return
     for index,row in trade_date.iterrows():
         if row['is_open'] == 1:
             dt = datetime.datetime.strptime(row['cal_date'], "%Y%m%d")
             catdt_list.append(str(dt)[0:10])
             dt = int(time.mktime(dt.timetuple()))*1000
             caltimestamp_list.append(dt)
-    # print(cal_list)
-    # stock_name = stock_name.tail(1443)
     if(args.all):
         for ts_code in stock_name:
             while True:
                 try:
                     if(args.mt):
-                        t1 = threading.Thread(target=get_exright_price, args=(ts_code,))
-                        t1.start()
+                        if(args.min):
+                            t1 = threading.Thread(target=get_historymin_price, args=(ts_code,caltimestamp_list,catdt_list))
+                            t1.start()
+                        else:
+                            t1 = threading.Thread(target=get_exright_price, args=(ts_code,))
+                            t1.start()
                     else:
                         get_exright_price(ts_code)
                     time.sleep(0.2)
@@ -119,8 +135,10 @@ def get_data(args):
                     continue
                 break
     else:
-        # get_realtimemin_price(args.s)
-        get_historymin_price(args.s,trade_timestamp=caltimestamp_list,trade_datetime = catdt_list)
+        if(args.min):
+            get_historymin_price(args.s,trade_timestamp=caltimestamp_list,trade_datetime = catdt_list)
+        else:
+            get_exright_price(args.s)
 
 
 if __name__ == '__main__':

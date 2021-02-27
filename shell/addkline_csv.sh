@@ -6,4 +6,5 @@ export TS_TOKEN=''
 export export XUEQIULOGINCOOKIE=''
 CURDIR=$(cd $(dirname ${BASH_SOURCE[0]}); pwd )
 PYTHONDIR=$(which python)
-$PYTHONDIR $CURDIR/../addkline_csv.py --all
+$PYTHONDIR $CURDIR/../addkline_csv.py --all --check
+$PYTHONDIR $CURDIR/../addkline_csv.py --all --min
