@@ -127,7 +127,10 @@ def get_data(args):
                             t1 = threading.Thread(target=get_exright_price, args=(ts_code,))
                             t1.start()
                     else:
-                        get_exright_price(ts_code)
+                        if(args.min):
+                            get_historymin_price(args.s,trade_timestamp=caltimestamp_list,trade_datetime = catdt_list)
+                        else:
+                            get_exright_price(ts_code)
                     time.sleep(0.2)
                 except:
                     print(ts_code + "failed")
