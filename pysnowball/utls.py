@@ -18,13 +18,14 @@ async def fetch_async(url):
     async with aiohttp.ClientSession() as session:
         async with session.get(url=url,headers=HEADERS) as response:
 
-            print("Status:", response.status)
-            print("Content-type:", response.headers['content-type'])
+            # print("Status:", response.status)
+            # print("Content-type:", response.headers['content-type'])
 
             html = await response.text()
-            print("Body:", html, "...")
+            # print("Body:", html, "...")
+            return html
 
-def fetch(url,is_async = False):
+def fetch(url):
     HEADERS = {'Host': 'stock.xueqiu.com',
                'Accept': 'application/json',
                'Cookie': token.get_token(),
@@ -32,9 +33,7 @@ def fetch(url,is_async = False):
                'Accept-Language': 'zh-Hans-CN;q=1, ja-JP;q=0.9',
                'Accept-Encoding': 'br, gzip, deflate',
                'Connection': 'keep-alive'}
-    if(is_async):
-        loop = asyncio.get_event_loop()
-        loop.run_until_complete(fetch_async(url))
+
     response = requests.get(url,headers=HEADERS)
 
     # print(url)
