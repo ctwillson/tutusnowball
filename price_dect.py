@@ -3,15 +3,17 @@ import time
 import pandas as pd
 import asyncio
 import sys
+import os
 import traceback
 from aiohttp import ClientSession
 import pysnowball as ball
 import my_common
 from my_common import mypush
 # stock_list = ['SZ000001','SZ000004']
+dir_path = os.path.dirname(os.path.abspath(__file__))
 tasks = []
 ball.set_token()
-df = pd.read_csv('testdata/attention/zg.csv')
+df = pd.read_csv(dir_path+'/testdata/attention/zg.csv')
 stock_list = df['ts_code']
 price_zg = df['last_zg']
 stock_notify = df['notify']
