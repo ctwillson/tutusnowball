@@ -9,4 +9,4 @@ export PUSHPLUSTOKEN=''
 
 CURDIR=$(cd $(dirname ${BASH_SOURCE[0]}); pwd )
 PYTHONDIR=$(which python)
-$PYTHONDIR $CURDIR/../price_detect.py
+$PYTHONDIR $CURDIR/../price_dect.py
