@@ -13,7 +13,7 @@ token = get_token()
 def pushplus(title,content):
     # title= title #改成你要的标题内容
     # content ='https://baike.baidu.com/item/www/109924?fr=aladdin' #改成你要的正文内容
-    url = 'http://pushplus.hxtrip.com/send?token='+token+'&title='+title+'&content='+content
+    url = 'http://pushplus.hxtrip.com/send?token='+token+'&title='+str(title)+'&content='+str(content)
     requests.get(url)
 
 def pushplus_group(title,content,code):

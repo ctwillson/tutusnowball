@@ -7,7 +7,7 @@ import pysnowball.token as token
 import aiohttp
 import asyncio
 
-async def fetch_async(url):
+async def fetch_async(url,session):
     HEADERS = {'Host': 'stock.xueqiu.com',
                'Accept': 'application/json',
                'Cookie': token.get_token(),
@@ -15,15 +15,15 @@ async def fetch_async(url):
                'Accept-Language': 'zh-Hans-CN;q=1, ja-JP;q=0.9',
                'Accept-Encoding': 'br, gzip, deflate',
                'Connection': 'keep-alive'}
-    async with aiohttp.ClientSession() as session:
-        async with session.get(url=url,headers=HEADERS) as response:
+    # async with aiohttp.ClientSession() as session:
+    async with session.get(url=url,headers=HEADERS) as response:
 
-            # print("Status:", response.status)
-            # print("Content-type:", response.headers['content-type'])
+        # print("Status:", response.status)
+        # print("Content-type:", response.headers['content-type'])
 
-            html = await response.text()
-            # print("Body:", html, "...")
-            return html
+        html = await response.text()
+        # print("Body:", html, "...")
+        return html
 
 def fetch(url):
     HEADERS = {'Host': 'stock.xueqiu.com',
@@ -50,10 +50,12 @@ def fetch_with_login(url,query,is_async = False):
     HEADERS = {'Host': 'stock.xueqiu.com',
                'Accept': 'application/json',
                'Cookie': token.get_login_token(),
-               'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36',
+               'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36',
                'Accept-Language': 'zh-Hans-CN;q=1, ja-JP;q=0.9',
                'Accept-Encoding': 'br, gzip, deflate',
-               'Connection': 'keep-alive'}
+               'Connection': 'keep-alive',
+                'sec-ch-ua': '"Google Chrome";v="89", "Chromium";v="89", ";Not A Brand";v="99"',
+                'Content-Type': 'application/x-www-form-urlencoded'}
     if(is_async):
         loop = asyncio.get_event_loop()
         loop.run_until_complete(fetch_async(url))
