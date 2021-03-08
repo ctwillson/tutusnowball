@@ -14,11 +14,11 @@ dir_path = os.path.dirname(os.path.abspath(__file__))
 tasks = []
 ball.set_token()
 df = pd.read_csv(dir_path+'/testdata/attention/zg.csv')
-stock_list = df['ts_code']
-price_zg = df['last_zg']
-stock_notify = df['notify']
-stock_down_notify = df['down_notify']
-stock_up_notify = df['up_notify']
+stock_list = df.loc[:,'ts_code']
+price_zg = df.loc[:,'last_zg']
+stock_notify = df.loc[:,'notify']
+stock_down_notify = df.loc[:,'down_notify']
+stock_up_notify = df.loc[:,'up_notify']
 
 logger = my_common.MyLog(__name__,__file__)
 logger.instance()
@@ -28,7 +28,7 @@ async def getprice():
     async with ClientSession() as session:
         for symbol in stock_list:
             # print(symbol)
-            if(sys.version_info <= (3,5)):
+            if(sys.version_info < (3,7)):
                 tasks.append(asyncio.ensure_future(ball.quotec_async(str(symbol),sem,session)))
             else:
                 tasks.append(asyncio.create_task(ball.quotec_async(str(symbol),sem,session)))
@@ -39,10 +39,10 @@ async def getprice():
                 data = json.loads(data)
                 try:
                     tmp = data['data']['quote']['current']
-                    print(stock_down_notify)
+                    # print(stock_down_notify)
                     if(price_zg.iloc[index] <= tmp and abs(tmp - price_zg.iloc[index]) <= 0.05 and stock_notify[index]):
                         mypush.pushplus(stock_list[index],'equal 0.05!')
-                        stock_notify[index] = False
+                        stock_notify.iloc[index] = False
                     elif (tmp < price_zg.iloc[index] and stock_down_notify.iloc[index]):
                         mypush.pushplus(stock_list[index],'sell! down 0.05!')
                         stock_down_notify.iloc[index] = False
@@ -59,7 +59,7 @@ async def getprice():
             #     print(tmp)
         # 
 def run():
-    if(sys.version_info < (3, 5)):
+    if(sys.version_info < (3, 7)):
         asyncio.get_event_loop().run_until_complete(getprice())
     else:
         asyncio.run(getprice())
