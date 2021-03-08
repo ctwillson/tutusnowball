@@ -28,7 +28,10 @@ async def getprice():
     async with ClientSession() as session:
         for symbol in stock_list:
             # print(symbol)
-            tasks.append(asyncio.create_task(ball.quotec_async(str(symbol),sem,session)))
+            if(sys.version_info <= (3,5)):
+                tasks.append(asyncio.ensure_future(ball.quotec_async(str(symbol),sem,session)))
+            else:
+                tasks.append(asyncio.create_task(ball.quotec_async(str(symbol),sem,session)))
         while(True):
             results = await asyncio.gather(*tasks)
             # print(results)
@@ -56,7 +59,10 @@ async def getprice():
             #     print(tmp)
         # 
 def run():
-    asyncio.run(getprice())
+    if(sys.version_info < (3, 5)):
+        asyncio.get_event_loop().run_until_complete(getprice())
+    else:
+        asyncio.run(getprice())
 if __name__ == '__main__':
     run()
 
