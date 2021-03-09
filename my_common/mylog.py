@@ -5,7 +5,7 @@ import os
 class MyLog:
     def __init__(self,logname,filename):
         self.logname = logname
-        self.filename = "mylogs/" + filename
+        self.filename = filename
         self.logger = logging.getLogger(self.logname)
         #logging.basicConfig(filename="logs/myapp.log", filemode="w", format="%(asctime)s %(name)s:%(levelname)s:%(message)s", datefmt="%d-%M-%Y %H:%M:%S", level=logging.INFO)
     def instance(self):

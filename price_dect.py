@@ -1,4 +1,5 @@
 import json
+from my_common import mylog
 import time
 import pandas as pd
 import asyncio
@@ -20,7 +21,7 @@ stock_notify = df.loc[:,'notify']
 stock_down_notify = df.loc[:,'down_notify']
 stock_up_notify = df.loc[:,'up_notify']
 
-logger = my_common.MyLog(__name__,__file__)
+logger = my_common.MyLog(__name__,dir_path + '/mylogs/price_detect.log')
 logger.instance()
 mypush.pushplus('begin','price detect begin')
 async def getprice():
