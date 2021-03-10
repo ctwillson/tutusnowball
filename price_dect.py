@@ -12,7 +12,7 @@ import my_common
 from my_common import mypush
 # stock_list = ['SZ000001','SZ000004']
 dir_path = os.path.dirname(os.path.abspath(__file__))
-tasks = []
+# tasks = []
 ball.set_token()
 df = pd.read_csv(dir_path+'/testdata/attention/zg.csv')
 stock_list = df.loc[:,'ts_code']
@@ -27,14 +27,21 @@ mypush.pushplus('begin','price detect begin')
 async def getprice():
     sem = asyncio.Semaphore(1000)
     async with ClientSession() as session:
-        for symbol in stock_list:
-            # print(symbol)
-            if(sys.version_info < (3,7)):
-                tasks.append(asyncio.ensure_future(ball.quotec_async(str(symbol),sem,session)))
-            else:
-                tasks.append(asyncio.create_task(ball.quotec_async(str(symbol),sem,session)))
+        # for symbol in stock_list:
+        #     # print(symbol)
+        #     if(sys.version_info < (3,7)):
+        #         tasks.append(asyncio.ensure_future(ball.quotec_async(str(symbol),sem,session)))
+        #     else:
+        #         tasks.append(asyncio.create_task(ball.quotec_async(str(symbol),sem,session)))
         while(True):
-            results = await asyncio.gather(*tasks)
+            tasks = []
+            for symbol in stock_list:
+                # print(symbol)
+                if(sys.version_info < (3,7)):
+                    tasks.append(asyncio.ensure_future(ball.quotec_async(str(symbol),sem,session)))
+                else:
+                    tasks.append(asyncio.create_task(ball.quotec_async(str(symbol),sem,session)))
+                results = await asyncio.gather(*tasks)
             # print(results)
             for index,data in enumerate(results):
                 data = json.loads(data)
