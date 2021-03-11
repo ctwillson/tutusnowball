@@ -21,4 +21,4 @@ from pysnowball.f10 import(skholderchg, skholder, main_indicator,
 from pysnowball.token import (get_token,set_token)
 
 from pysnowball.history_kline import (history_kline,history_realtime_minute)
-from pysnowball.pick import (private_pick,private_packet)
+from pysnowball.pick import (private_pick,private_packet,price_alert)
