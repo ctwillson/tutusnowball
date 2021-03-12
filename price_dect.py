@@ -41,11 +41,19 @@ async def getprice():
                     tasks.append(asyncio.ensure_future(ball.quotec_async(str(symbol),sem,session)))
                 else:
                     tasks.append(asyncio.create_task(ball.quotec_async(str(symbol),sem,session)))
-                results = await asyncio.gather(*tasks)
+            results = await asyncio.gather(*tasks)
+            error_count = 0
             # print(results)
             for index,data in enumerate(results):
-                data = json.loads(data)
+                # if data is None:
+                #     error_count = error_count + 1
+                #     if(error_count == 10):
+                #         mypush.pushplus('error','mayde cannot get the stock data')
+                #     # print(data)
+                #     time.sleep(10)
+                #     continue
                 try:
+                    data = json.loads(data)
                     tmp = data['data']['quote']['current']
                     # print(stock_down_notify)
                     if(price_zg.iloc[index] <= tmp and abs(tmp - price_zg.iloc[index]) <= 0.05 and stock_notify[index]):
@@ -57,12 +65,21 @@ async def getprice():
                     elif(tmp >= price_zg.iloc[index] * 1.01 and stock_up_notify.iloc[index] and (not stock_notify.iloc[index]) and (stock_down_notify.iloc[index])):
                         mypush.pushplus(stock_list[index],'buy!up 0.05!')
                         stock_up_notify.iloc[index] = False
+                except json.JSONDecodeError:
+                    error_count = error_count + 1
+                    if(error_count == 10):
+                        mypush.pushplus('error','continue , mayde cannot get the stock data')
+                    logger.logerr(data)
+                    time.sleep(1)
+                    continue
                 except:
-                    print(traceback.print_exc())
+                    logger.logerr(traceback.print_exc())
                     mypush.pushplus('error','mayde cannot get the stock data')
                     sys.exit(0)
                 # logger.logerr(str(tmp) + str(price_zg.iloc[index]))
-            time.sleep(1)
+            print('done sleep!')
+            time.sleep(10)
+            # sys.exit(0)
             # if(price_zg.iloc[index] > tmp):
             #     print(tmp)
         # 
@@ -83,3 +100,4 @@ if __name__ == '__main__':
 #     elif(price_dic['data']['quote']['current'] < 34.2):
 #         my_common.pushplus('SH601066','below 34.2')
 #     time.sleep(1)
+
