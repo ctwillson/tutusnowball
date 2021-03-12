@@ -15,11 +15,11 @@ dir_path = os.path.dirname(os.path.abspath(__file__))
 # tasks = []
 ball.set_token()
 df = pd.read_csv(dir_path+'/testdata/attention/zg.csv')
-stock_list = df.loc[:,'ts_code']
-price_zg = df.loc[:,'last_zg']
-stock_notify = df.loc[:,'notify']
-stock_down_notify = df.loc[:,'down_notify']
-stock_up_notify = df.loc[:,'up_notify']
+stock_list = df.loc[:,'ts_code'].copy()
+price_zg = df.loc[:,'last_zg'].copy()
+stock_notify = df.loc[:,'notify'].copy()
+stock_down_notify = df.loc[:,'down_notify'].copy()
+stock_up_notify = df.loc[:,'up_notify'].copy()
 
 logger = my_common.MyLog(__name__,dir_path + '/mylogs/price_detect.log')
 logger.instance()
