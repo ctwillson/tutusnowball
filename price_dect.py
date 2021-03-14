@@ -10,6 +10,8 @@ from aiohttp import ClientSession
 import pysnowball as ball
 import my_common
 from my_common import mypush
+
+from mootdx.quotes import Quotes
 # stock_list = ['SZ000001','SZ000004']
 dir_path = os.path.dirname(os.path.abspath(__file__))
 # tasks = []
@@ -83,11 +85,29 @@ async def getprice():
             # if(price_zg.iloc[index] > tmp):
             #     print(tmp)
         # 
+def price_mootdx():
+    stock_mt = stock_list.apply(lambda x:x[2:]).to_list()
+    # print(stock_mt)
+    while True:
+        # try:
+        for i in range(0, len(stock_mt), 200):
+            stock_mt_2 = stock_mt[i: i + 200]
+            try:
+                client = Quotes.factory(market='std')
+                print(client.quotes(symbol=stock_mt_2))
+                time.sleep(1)
+            except:
+                print('price_mootdx error')
+                logger.logerr(traceback.print_exc())
+                time.sleep(5)
+                continue
+        sys.exit(0)
 def run():
-    if(sys.version_info < (3, 7)):
-        asyncio.get_event_loop().run_until_complete(getprice())
-    else:
-        asyncio.run(getprice())
+    # if(sys.version_info < (3, 7)):
+    #     asyncio.get_event_loop().run_until_complete(getprice())
+    # else:
+    #     asyncio.run(getprice())
+    price_mootdx()
 if __name__ == '__main__':
     run()
 
