@@ -90,18 +90,20 @@ def price_mootdx():
     # print(stock_mt)
     while True:
         # try:
+        price_list = []
         for i in range(0, len(stock_mt), 200):
             stock_mt_2 = stock_mt[i: i + 200]
             try:
                 client = Quotes.factory(market='std')
-                print(client.quotes(symbol=stock_mt_2))
+                df = client.quotes(symbol=stock_mt_2)
+                price_list.append(df.loc[:,'price'])
                 time.sleep(1)
             except:
                 print('price_mootdx error')
                 logger.logerr(traceback.print_exc())
                 time.sleep(5)
                 continue
-        sys.exit(0)
+        # sys.exit(0)
 def run():
     # if(sys.version_info < (3, 7)):
     #     asyncio.get_event_loop().run_until_complete(getprice())
