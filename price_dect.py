@@ -96,13 +96,38 @@ def price_mootdx():
             try:
                 client = Quotes.factory(market='std')
                 df = client.quotes(symbol=stock_mt_2)
-                price_list.append(df.loc[:,'price'])
+                price_list.extend(df.loc[:,'price'].to_list())
                 time.sleep(1)
             except:
                 print('price_mootdx error')
                 logger.logerr(traceback.print_exc())
                 time.sleep(5)
                 continue
+        # print(price_list)
+        for index,data in enumerate(price_list):
+            try:
+                tmp = data
+                # print(tmp)
+                if(price_zg.iloc[index] <= tmp and abs(tmp - price_zg.iloc[index]) <= 0.05 and stock_notify[index]):
+                    mypush.pushplus(stock_list[index],'equal 0.05!')
+                    stock_notify.iloc[index] = False
+                elif (tmp < price_zg.iloc[index] and stock_down_notify.iloc[index]):
+                    mypush.pushplus(stock_list[index],'sell! down 0.05!')
+                    stock_down_notify.iloc[index] = False
+                elif(tmp >= price_zg.iloc[index] * 1.01 and stock_up_notify.iloc[index] and (not stock_notify.iloc[index]) and (stock_down_notify.iloc[index])):
+                    mypush.pushplus(stock_list[index],'buy!up 0.05!')
+                    stock_up_notify.iloc[index] = False
+            # except json.JSONDecodeError:
+            #     error_count = error_count + 1
+            #     if(error_count == 10):
+            #         mypush.pushplus('error','continue , mayde cannot get the stock data')
+            #     logger.logerr(data)
+            #     time.sleep(1)
+            #     continue
+            except:
+                logger.logerr(traceback.print_exc())
+                mypush.pushplus('error','mayde cannot get the stock data')
+                sys.exit(0)
         # sys.exit(0)
 def run():
     # if(sys.version_info < (3, 7)):
