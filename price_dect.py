@@ -109,13 +109,13 @@ def price_mootdx():
                 tmp = data
                 # print(tmp)
                 if(price_zg.iloc[index] <= tmp and abs(tmp - price_zg.iloc[index]) <= 0.05 and stock_notify[index]):
-                    mypush.pushplus(stock_list[index],'equal 0.05!')
+                    mypush.pushplus(stock_list[index],'equal 0.05! now price = ' + str(tmp))
                     stock_notify.iloc[index] = False
                 elif (tmp < price_zg.iloc[index] and stock_down_notify.iloc[index]):
-                    mypush.pushplus(stock_list[index],'sell! down 0.05!')
+                    mypush.pushplus(stock_list[index],'sell! down 0.05! now price = ' + str(tmp))
                     stock_down_notify.iloc[index] = False
                 elif(tmp >= price_zg.iloc[index] * 1.01 and stock_up_notify.iloc[index] and (not stock_notify.iloc[index]) and (stock_down_notify.iloc[index])):
-                    mypush.pushplus(stock_list[index],'buy!up 0.05!')
+                    mypush.pushplus(stock_list[index],'buy!up 0.05! now price = ' + str(tmp))
                     stock_up_notify.iloc[index] = False
             # except json.JSONDecodeError:
             #     error_count = error_count + 1
