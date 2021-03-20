@@ -10,7 +10,8 @@ from aiohttp import ClientSession
 import pysnowball as ball
 import my_common
 from my_common import mypush
-
+import datetime
+import tushare as ts
 from mootdx.quotes import Quotes
 # stock_list = ['SZ000001','SZ000004']
 dir_path = os.path.dirname(os.path.abspath(__file__))
@@ -26,6 +27,20 @@ stock_up_notify = df.loc[:,'up_notify'].copy()
 logger = my_common.MyLog(__name__,dir_path + '/mylogs/price_detect.log')
 logger.instance()
 mypush.pushplus('begin','price detect begin')
+
+def check_tradedate():
+    ts_token = os.getenv('TS_TOKEN')
+    print('ts_token = ' + ts_token)
+
+    ts.set_token(ts_token)
+    pro = ts.pro_api()
+    cal = str(datetime.date.today().strftime('%Y%m%d'))
+    start_date = cal
+    trade_date = pro.trade_cal(exchange='', start_date=start_date, end_date=cal)
+    if(trade_date.iloc[-1,-1] == 0):
+            print('not trading date')
+            sys.exit(0)
+
 async def getprice():
     sem = asyncio.Semaphore(1000)
     async with ClientSession() as session:
@@ -86,23 +101,30 @@ async def getprice():
             #     print(tmp)
         # 
 def price_mootdx():
+    check_tradedate()
+    client = Quotes.factory(market='std')
     stock_mt = stock_list.apply(lambda x:x[2:]).to_list()
     # print(stock_mt)
     while True:
         # try:
         price_list = []
+        start = datetime.datetime.now()
         for i in range(0, len(stock_mt), 200):
             stock_mt_2 = stock_mt[i: i + 200]
             try:
-                client = Quotes.factory(market='std')
+                # client = Quotes.factory(market='std')
                 df = client.quotes(symbol=stock_mt_2)
                 price_list.extend(df.loc[:,'price'].to_list())
-                time.sleep(1)
+                # time.sleep(1)
             except:
                 print('price_mootdx error')
                 logger.logerr(traceback.print_exc())
                 time.sleep(5)
                 continue
+        
+        end = datetime.datetime.now()
+        print(price_list)
+        print('Running time: %s Seconds'%(end - start))
         # print(price_list)
         for index,data in enumerate(price_list):
             try:
