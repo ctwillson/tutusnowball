@@ -23,7 +23,8 @@ price_zg = df.loc[:,'last_zg'].copy()
 stock_notify = df.loc[:,'notify'].copy()
 stock_down_notify = df.loc[:,'down_notify'].copy()
 stock_up_notify = df.loc[:,'up_notify'].copy()
-
+ 
+buystock = pd.read_csv(dir_path+'/testdata/attention/buystock.csv')
 logger = my_common.MyLog(__name__,dir_path + '/mylogs/price_detect.log')
 logger.instance()
 mypush.pushplus('begin','price detect begin')
@@ -108,9 +109,10 @@ def price_mootdx():
     while True:
         # try:
         price_list = []
+        print(len(stock_mt))
         start = datetime.datetime.now()
-        for i in range(0, len(stock_mt), 200):
-            stock_mt_2 = stock_mt[i: i + 200]
+        for i in range(0, len(stock_mt), 80):
+            stock_mt_2 = stock_mt[i: i + 80]
             try:
                 # client = Quotes.factory(market='std')
                 df = client.quotes(symbol=stock_mt_2)
@@ -146,6 +148,19 @@ def price_mootdx():
             #     logger.logerr(data)
             #     time.sleep(1)
             #     continue
+            except:
+                logger.logerr(traceback.print_exc())
+                mypush.pushplus('error','mayde cannot get the stock data')
+                sys.exit(0)
+        
+        df = client.quotes(symbol=buystock.loc[:,'ts_code'].apply(lambda x:x[2:]).to_list())
+        buystock_price = (df.loc[:,'price'].to_list())
+        for index,data in enumerate(buystock_price):
+            try:
+                tmp = data
+                print(tmp)
+                if(tmp < buystock.loc[:,'last_zg'][index]):
+                    mypush.pushplus(buystock.loc[:,'ts_code'][index],'buystock force sell!!! now price = ' + str(tmp))
             except:
                 logger.logerr(traceback.print_exc())
                 mypush.pushplus('error','mayde cannot get the stock data')
