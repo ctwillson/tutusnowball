@@ -25,6 +25,7 @@ stock_down_notify = df.loc[:,'down_notify'].copy()
 stock_up_notify = df.loc[:,'up_notify'].copy()
  
 buystock = pd.read_csv(dir_path+'/testdata/attention/buystock.csv')
+buystock_down_notify = buystock.loc[:,'down_notify'].copy()
 logger = my_common.MyLog(__name__,dir_path + '/mylogs/price_detect.log')
 logger.instance()
 mypush.pushplus('begin','price detect begin')
@@ -159,8 +160,9 @@ def price_mootdx():
             try:
                 tmp = data
                 print(tmp)
-                if(tmp < buystock.loc[:,'last_zg'][index]):
+                if(tmp < buystock.loc[:,'last_zg'][index] and buystock_down_notify[index]):
                     mypush.pushplus(buystock.loc[:,'ts_code'][index],'buystock force sell!!! now price = ' + str(tmp))
+                    buystock_down_notify[index] = False
             except:
                 logger.logerr(traceback.print_exc())
                 mypush.pushplus('error','mayde cannot get the stock data')
