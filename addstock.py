@@ -8,22 +8,31 @@ dir_path = os.path.dirname(os.path.abspath(__file__))
 cal = str(datetime.date.today().strftime('%m%d'))
 
 print(cal)
-with open('./testdata/stock/attention.txt', 'r') as file_object:
+# with open('./testdata/stock/attention.txt', 'r') as file_object:
+#     stock_list = file_object.readlines()
+# for symbol in stock_list:
+#     symbol = symbol[11:19]
+#     print(symbol)
+#     ball.private_pick(symbol)
+#     ball.private_packet(symbols=symbol,packet_name='zg'+cal)
+#     time.sleep(0.1)
+
+with open('./testdata/stock/attention_add_15.txt', 'r') as file_object:
     stock_list = file_object.readlines()
 for symbol in stock_list:
     symbol = symbol[11:19]
     print(symbol)
     ball.private_pick(symbol)
-    ball.private_packet(symbols=symbol,packet_name='zg'+cal)
+    ball.private_packet(symbols=symbol,packet_name='zgadd15_'+cal)
     time.sleep(0.1)
 
-with open('./testdata/stock/attention_add.txt', 'r') as file_object:
+with open('./testdata/stock/attention_add_0.txt', 'r') as file_object:
     stock_list = file_object.readlines()
 for symbol in stock_list:
     symbol = symbol[11:19]
     print(symbol)
     ball.private_pick(symbol)
-    ball.private_packet(symbols=symbol,packet_name='zgadd'+cal)
+    ball.private_packet(symbols=symbol,packet_name='zgadd0_'+cal)
     time.sleep(0.1)
 # df = pd.read_csv(dir_path+'/testdata/attention/test.csv')
 # stock_list = df.loc[:,'ts_code']
