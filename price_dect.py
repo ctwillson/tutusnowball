@@ -153,20 +153,19 @@ def price_mootdx():
                 logger.logerr(traceback.print_exc())
                 mypush.pushplus('error','mayde cannot get the stock data')
                 sys.exit(0)
-        
-        df = client.quotes(symbol=buystock.loc[:,'ts_code'].apply(lambda x:x[2:]).to_list())
-        buystock_price = (df.loc[:,'price'].to_list())
-        for index,data in enumerate(buystock_price):
-            try:
-                tmp = data
-                print(tmp)
-                if(tmp < buystock.loc[:,'last_zg'][index] and buystock_down_notify[index]):
-                    mypush.pushplus(buystock.loc[:,'ts_code'][index],'buystock force sell!!! now price = ' + str(tmp))
-                    buystock_down_notify[index] = False
-            except:
-                logger.logerr(traceback.print_exc())
-                mypush.pushplus('error','mayde cannot get the stock data')
-                sys.exit(0)
+        try:
+            df = client.quotes(symbol=buystock.loc[:,'ts_code'].apply(lambda x:x[2:]).to_list())
+            buystock_price = (df.loc[:,'price'].to_list())
+            for index,data in enumerate(buystock_price):
+                    tmp = data
+                    print(tmp)
+                    if(tmp < buystock.loc[:,'last_zg'][index] and buystock_down_notify[index]):
+                        mypush.pushplus(buystock.loc[:,'ts_code'][index],'buystock force sell!!! now price = ' + str(tmp))
+                        buystock_down_notify[index] = False
+        except:
+            logger.logerr(traceback.print_exc())
+            mypush.pushplus('error','mayde cannot get the stock data')
+            sys.exit(0)
         # sys.exit(0)
 def run():
     # if(sys.version_info < (3, 7)):
