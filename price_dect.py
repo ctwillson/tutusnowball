@@ -15,9 +15,11 @@ import tushare as ts
 from mootdx.quotes import Quotes
 # stock_list = ['SZ000001','SZ000004']
 dir_path = os.path.dirname(os.path.abspath(__file__))
+PERCENT = 0.02
 # tasks = []
 ball.set_token()
 df = pd.read_csv(dir_path+'/testdata/attention/zg.csv')
+pd.set_option('display.max_columns', None)
 stock_list = df.loc[:,'ts_code'].copy()
 price_zg = df.loc[:,'last_zg'].copy()
 stock_notify = df.loc[:,'notify'].copy()
@@ -106,55 +108,60 @@ def price_mootdx():
     check_tradedate()
     client = Quotes.factory(market='std')
     stock_mt = stock_list.apply(lambda x:x[2:]).to_list()
+    last_close_list = []
     # print(stock_mt)
     while True:
         # try:
-        price_list = []
-        print(len(stock_mt))
-        start = datetime.datetime.now()
-        for i in range(0, len(stock_mt), 80):
-            stock_mt_2 = stock_mt[i: i + 80]
-            try:
-                # client = Quotes.factory(market='std')
-                df = client.quotes(symbol=stock_mt_2)
-                price_list.extend(df.loc[:,'price'].to_list())
-                # time.sleep(1)
-            except:
-                print('price_mootdx error')
-                logger.logerr(traceback.print_exc())
-                time.sleep(5)
-                continue
+        # price_list = []
+        # print(len(stock_mt))
+        # start = datetime.datetime.now()
+        # for i in range(0, len(stock_mt), 80):
+        #     stock_mt_2 = stock_mt[i: i + 80]
+        #     try:
+        #         # client = Quotes.factory(market='std')
+        #         df = client.quotes(symbol=stock_mt_2)
+        #         price_list.extend(df.loc[:,'price'].to_list())
+        #         # time.sleep(1)
+        #     except:
+        #         print('price_mootdx error')
+        #         logger.logerr(traceback.print_exc())
+        #         time.sleep(5)
+        #         continue
         
-        end = datetime.datetime.now()
-        print(price_list)
-        print('Running time: %s Seconds'%(end - start))
+        # end = datetime.datetime.now()
         # print(price_list)
-        for index,data in enumerate(price_list):
-            try:
-                tmp = data
-                # print(tmp)
-                if(price_zg.iloc[index] <= tmp and abs(tmp - price_zg.iloc[index]) <= 0.05 and stock_notify[index]):
-                    mypush.pushplus(stock_list[index],'equal 0.05! now price = ' + str(tmp))
-                    stock_notify.iloc[index] = False
-                elif (tmp < price_zg.iloc[index] and stock_down_notify.iloc[index]):
-                    mypush.pushplus(stock_list[index],'sell! down 0.05! now price = ' + str(tmp))
-                    stock_down_notify.iloc[index] = False
-                elif(tmp >= price_zg.iloc[index] * 1.01 and stock_up_notify.iloc[index] and (not stock_notify.iloc[index]) and (stock_down_notify.iloc[index])):
-                    mypush.pushplus(stock_list[index],'buy!up 0.05! now price = ' + str(tmp))
-                    stock_up_notify.iloc[index] = False
-            # except json.JSONDecodeError:
-            #     error_count = error_count + 1
-            #     if(error_count == 10):
-            #         mypush.pushplus('error','continue , mayde cannot get the stock data')
-            #     logger.logerr(data)
-            #     time.sleep(1)
-            #     continue
-            except:
-                logger.logerr(traceback.print_exc())
-                mypush.pushplus('error','mayde cannot get the stock data')
-                sys.exit(0)
+        # print('Running time: %s Seconds'%(end - start))
+        # # print(price_list)
+        # for index,data in enumerate(price_list):
+        #     try:
+        #         tmp = data
+        #         # print(tmp)
+        #         if(price_zg.iloc[index] <= tmp and abs(tmp - price_zg.iloc[index]) <= 0.05 and stock_notify[index]):
+        #             mypush.pushplus(stock_list[index],'equal 0.05! now price = ' + str(tmp))
+        #             stock_notify.iloc[index] = False
+        #         elif (tmp < price_zg.iloc[index] and stock_down_notify.iloc[index]):
+        #             mypush.pushplus(stock_list[index],'sell! down 0.05! now price = ' + str(tmp))
+        #             stock_down_notify.iloc[index] = False
+        #         elif(tmp >= price_zg.iloc[index] * 1.01 and stock_up_notify.iloc[index] and (not stock_notify.iloc[index]) and (stock_down_notify.iloc[index])):
+        #             mypush.pushplus(stock_list[index],'buy!up 0.05! now price = ' + str(tmp))
+        #             stock_up_notify.iloc[index] = False
+        #     # except json.JSONDecodeError:
+        #     #     error_count = error_count + 1
+        #     #     if(error_count == 10):
+        #     #         mypush.pushplus('error','continue , mayde cannot get the stock data')
+        #     #     logger.logerr(data)
+        #     #     time.sleep(1)
+        #     #     continue
+        #     except:
+        #         logger.logerr(traceback.print_exc())
+        #         mypush.pushplus('error','mayde cannot get the stock data')
+        #         sys.exit(0)
         try:
             df = client.quotes(symbol=buystock.loc[:,'ts_code'].apply(lambda x:x[2:]).to_list())
+            if (len(last_close_list) == 0):
+                last_close_list = df.loc[:,'last_close'].to_list()
+            # print(df)
+            # sys.exit(0)
             buystock_price = (df.loc[:,'price'].to_list())
             for index,data in enumerate(buystock_price):
                     tmp = data
@@ -162,6 +169,17 @@ def price_mootdx():
                     if(tmp < buystock.loc[:,'last_zg'][index] and buystock_down_notify[index]):
                         mypush.pushplus(buystock.loc[:,'ts_code'][index],'buystock force sell!!! now price = ' + str(tmp))
                         buystock_down_notify[index] = False
+                    if(tmp <= last_close_list[index]*(1-PERCENT)):
+                        last_close_list[index] = tmp
+                        mypush.pushplus(buystock.loc[:,'ts_code'][index],'buystock price down!!! now price = ' + str(tmp))
+                    elif (tmp >= last_close_list[index]*(1+PERCENT)):
+                        mypush.pushplus(buystock.loc[:,'ts_code'][index],'buystock price up!!! now price = ' + str(tmp))
+                        last_close_list[index] = tmp
+                    else:
+                        pass
+            # print(last_close_list)
+            # time.sleep(10)
+                    
         except:
             logger.logerr(traceback.print_exc())
             mypush.pushplus('error','mayde cannot get the stock data')
