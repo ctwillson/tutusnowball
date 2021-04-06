@@ -109,6 +109,7 @@ def price_mootdx():
     client = Quotes.factory(market='std')
     stock_mt = stock_list.apply(lambda x:x[2:]).to_list()
     last_close_list = []
+    error_count = 0
     # print(stock_mt)
     while True:
         # try:
@@ -165,7 +166,7 @@ def price_mootdx():
             buystock_price = (df.loc[:,'price'].to_list())
             for index,data in enumerate(buystock_price):
                     tmp = data
-                    print(tmp)
+                    # print(tmp)
                     if(tmp < buystock.loc[:,'last_zg'][index] and buystock_down_notify[index]):
                         mypush.pushplus(buystock.loc[:,'ts_code'][index],'buystock force sell!!! now price = ' + str(tmp))
                         buystock_down_notify[index] = False
@@ -177,13 +178,18 @@ def price_mootdx():
                         last_close_list[index] = tmp
                     else:
                         pass
+            error_count = 0
             # print(last_close_list)
             # time.sleep(10)
                     
         except:
+            error_count = error_count + 1
             logger.logerr(traceback.print_exc())
-            mypush.pushplus('error','mayde cannot get the stock data')
-            sys.exit(0)
+            if(error_count == 10):
+                mypush.pushplus('error','mayde cannot get the stock data')
+            #sys.exit(0)
+            time.sleep(1)
+            continue
         # sys.exit(0)
 def run():
     # if(sys.version_info < (3, 7)):
